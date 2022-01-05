@@ -8,11 +8,17 @@ public class SpawnPoints : MonoBehaviour
 
     private Transform[] _point;
 
-    private Object[] _enamy;
+    public GameObject _enemy;
+
+    private int _randomPosition;
+
+    private float _delayBetweenSpawn=2f;
+
+    private float _timeBetweenSpawn;
 
     private void Start()
     {
-        _enamy = Resources.LoadAll("Prefab", typeof(GameObject));
+        _timeBetweenSpawn = _delayBetweenSpawn;
 
         _point = new Transform[_pointsSpawn.childCount];
 
@@ -22,20 +28,24 @@ public class SpawnPoints : MonoBehaviour
             _point[i] = _pointsSpawn.GetChild(i);
 
         }
-
-        StartCoroutine(SpawnEnamy());
-
     }
-    private IEnumerator SpawnEnamy()
+
+    private void Update()
     {
-        for (int i = 0; i < 10; i++)
+        if (_timeBetweenSpawn <= 0)
         {
 
-            Instantiate(_enamy[Random.Range(0, _enamy.Length)], _point[Random.Range(0, _point.Length)].transform.position, Quaternion.identity);
+            _randomPosition = Random.Range(0, _point.Length);
 
-            yield return new WaitForSeconds(2);
+            Instantiate(_enemy, _point[_randomPosition].transform.position, Quaternion.identity);
+
+            _timeBetweenSpawn = _delayBetweenSpawn;
 
         }
+        else
+        {
+            _timeBetweenSpawn -= Time.deltaTime;
 
+        }
     }
 }

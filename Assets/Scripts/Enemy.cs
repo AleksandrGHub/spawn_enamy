@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enamy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     private int _speed;
 
@@ -13,7 +13,7 @@ public class Enamy : MonoBehaviour
     private void Update()
     {
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.right, _speed * Time.deltaTime);
+        transform.Translate(_speed * Time.deltaTime, 0, 0);
 
     }
 }
