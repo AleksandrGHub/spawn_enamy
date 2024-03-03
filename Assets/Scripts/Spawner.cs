@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour
     {
         _points = new Transform[_spawnPoints.childCount];
 
-        for (int i = 0; i<_spawnPoints.childCount; i++)
+        for (int i = 0; i < _spawnPoints.childCount; i++)
         {
             _points[i] = _spawnPoints.GetChild(i);
         }
@@ -24,15 +24,21 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
+        int minAgel = -3;
+        int maxAngel = 20;
+        int minIndexPosition = 0;
+        int minIndexPrefab = 0;
         var waitForSecond = new WaitForSeconds(_delay);
 
-        for (int i = 0; i< _quantityEnemies; i++)
+        for (int i = 0; i < _quantityEnemies; i++)
         {
-            int position = Random.Range(0, _points.Length);
+            int indexPosition = Random.Range(minIndexPosition, _points.Length);
 
-            int number = Random.Range(0, _prefabs.Length);
+            int indexPrefab = Random.Range(minIndexPrefab, _prefabs.Length);
 
-            Instantiate(_prefabs[number], _points[position].transform.position, Quaternion.identity);
+            int angel = Random.Range(minAgel, maxAngel);
+
+            Instantiate(_prefabs[indexPrefab], _points[indexPosition].transform.position, Quaternion.AngleAxis(angel, Vector3.forward));
 
             yield return waitForSecond;
         }
